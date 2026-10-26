@@ -1,0 +1,23 @@
+{
+  "plaza": "0.1",
+  "type": "counter",
+  "thread_id": "018c1a2b-7c4d-7e8f-9a0b-1c2d3e4f5a6b",
+  "message_id": "018c1a2b-7c4d-7e8f-9a0b-1c2d3e4f5a6f",
+  "in_reply_to": "018c1a2b-7c4d-7e8f-9a0b-1c2d3e4f5a6e",
+  "from": "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+  "to": "did:key:z6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V",
+  "ts": "2026-10-26T15:01:50Z",
+  "expires_at": "2026-10-26T15:16:50Z",
+  "body": {
+    "price": {
+      "amount": 13000,
+      "currency": "USD",
+      "unit": "visit"
+    },
+    "when": {
+      "from": "2026-10-26T18:30:00Z",
+      "to": "2026-10-26T19:30:00Z"
+    }
+  },
+  "signature": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+}

@@ -1,0 +1,18 @@
+{
+  "plaza": "0.1",
+  "type": "payment_request",
+  "thread_id": "018c1a2b-7c4d-7e8f-9a0b-1c2d3e4f5a6b",
+  "message_id": "018c1a2b-7c4d-7e8f-9a0b-1c2d3e4f5a71",
+  "in_reply_to": "018c1a2b-7c4d-7e8f-9a0b-1c2d3e4f5a70",
+  "from": "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+  "to": "did:key:z6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V",
+  "ts": "2026-10-26T15:02:05Z",
+  "expires_at": "2026-10-26T15:32:05Z",
+  "body": {
+    "method": "stripe_link",
+    "amount": 13000,
+    "currency": "USD",
+    "checkout_url": "https://checkout.stripe.com/c/pay/cs_test_example"
+  },
+  "signature": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+}

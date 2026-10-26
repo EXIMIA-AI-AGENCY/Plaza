@@ -1,0 +1,19 @@
+{
+  "plaza": "0.1",
+  "receipt_id": "018c1a2b-7c4d-7e8f-9a0b-1c2d3e4f5a72",
+  "thread_id": "018c1a2b-7c4d-7e8f-9a0b-1c2d3e4f5a6b",
+  "node": "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+  "buyer": "did:key:z6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V",
+  "terms_hash": "sha256:abababababababababababababababababababababababababababababababab",
+  "amount": 13000,
+  "currency": "USD",
+  "ts": "2026-10-26T19:40:00Z",
+  "payment": {
+    "method": "stripe_link",
+    "reference": "cs_test_example"
+  },
+  "sig_node": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "sig_buyer": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "agreement_hash": "sha256:cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd",
+  "quote_document_hash": "sha256:cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd"
+}

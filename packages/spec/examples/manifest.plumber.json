@@ -1,0 +1,89 @@
+{
+  "plaza": "0.1",
+  "id": "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+  "name": "Plomería Rivera",
+  "category": "services/plumbing",
+  "description": "Plomería residencial y comercial en Caguas y área centro-este.",
+  "location": {
+    "city": "Caguas",
+    "country": "PR",
+    "lat": 18.2342,
+    "lng": -66.0485,
+    "radius_km": 25
+  },
+  "languages": [
+    "es",
+    "en"
+  ],
+  "offers": [
+    {
+      "id": "emergency-visit",
+      "title": "Visita de emergencia",
+      "price": {
+        "amount": 12000,
+        "currency": "USD",
+        "unit": "visit"
+      },
+      "availability": "calendar",
+      "negotiable": true,
+      "instant_book": false,
+      "requires_agreement": true,
+      "deposit_pct": 0,
+      "duration_minutes": 60
+    },
+    {
+      "id": "water-heater-install",
+      "title": "Instalación de calentador",
+      "price": {
+        "amount": 25000,
+        "currency": "USD",
+        "unit": "visit"
+      },
+      "availability": "on_request",
+      "negotiable": true,
+      "requires_agreement": true,
+      "deposit_pct": 30
+    }
+  ],
+  "policy": {
+    "negotiation": {
+      "max_discount_pct": 15,
+      "min_notice_hours": 2,
+      "max_rounds": 6,
+      "blackout": [
+        "sun"
+      ],
+      "strategy": "flexible"
+    },
+    "payment": [
+      "stripe_link",
+      "ath_movil",
+      "cash"
+    ],
+    "settlement": [
+      "acp"
+    ],
+    "cancellation": {
+      "free_until_hours": 2,
+      "fee_pct": 25
+    },
+    "handoff_to_human": true
+  },
+  "channels": {
+    "whatsapp": "+17875550123",
+    "web": "https://plomeriarivera.example",
+    "business_agent": true
+  },
+  "endpoint": "https://plomeriarivera.example/plaza",
+  "updated_at": "2026-10-26T15:00:00Z",
+  "signature": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "service_area": {
+    "municipalities": [
+      "Caguas",
+      "Gurabo",
+      "San Lorenzo",
+      "Cayey"
+    ],
+    "radius_km": 25
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "plaza": "0.1",
+  "id": "did:key:z6MkmjY8GnV5i9YTDTWcbKVmyhp9zvLnZ1nNq8wXf3U6wG6e",
+  "name": "Colmado Don Chelo",
+  "category": "retail/colmado",
+  "location": {
+    "city": "Utuado",
+    "country": "PR",
+    "lat": 18.2655,
+    "lng": -66.7005,
+    "radius_km": 5
+  },
+  "languages": [
+    "es"
+  ],
+  "offers": [
+    {
+      "id": "ice-bag",
+      "title": "Bolsa de hielo 10 lb",
+      "price": {
+        "amount": 400,
+        "currency": "USD",
+        "unit": "item"
+      },
+      "availability": "always",
+      "negotiable": false,
+      "instant_book": true
+    },
+    {
+      "id": "pan-sobao",
+      "title": "Pan sobao",
+      "price": {
+        "amount": 350,
+        "currency": "USD",
+        "unit": "item"
+      },
+      "availability": "always",
+      "negotiable": false,
+      "instant_book": true
+    },
+    {
+      "id": "delivery-utuado",
+      "title": "Entrega en Utuado pueblo",
+      "price": {
+        "amount": 500,
+        "currency": "USD",
+        "unit": "order"
+      },
+      "availability": "on_request",
+      "negotiable": true
+    }
+  ],
+  "policy": {
+    "negotiation": {
+      "max_discount_pct": 10,
+      "min_notice_hours": 1,
+      "max_rounds": 2
+    },
+    "payment": [
+      "ath_movil",
+      "cash"
+    ]
+  },
+  "channels": {
+    "whatsapp": "+17875550177",
+    "business_agent": false
+  },
+  "endpoint": "https://nodes.plaza.example/don-chelo/plaza",
+  "updated_at": "2026-10-26T15:00:00Z",
+  "signature": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+}

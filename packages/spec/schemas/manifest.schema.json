@@ -1,0 +1,350 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://plaza.dev/schemas/0.1/manifest.schema.json",
+  "title": "PLAZA Manifest",
+  "description": "What a node publishes at /.well-known/plaza.json. Signed by the node with Ed25519 over the canonical JSON (RFC 8785) of the object without the signature field.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "plaza",
+    "id",
+    "name",
+    "category",
+    "location",
+    "languages",
+    "offers",
+    "policy",
+    "endpoint",
+    "updated_at",
+    "signature"
+  ],
+  "properties": {
+    "plaza": {
+      "type": "string",
+      "const": "0.1"
+    },
+    "id": {
+      "$ref": "#/$defs/did"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120
+    },
+    "category": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(/[a-z0-9-]+)+$",
+      "description": "Short slash taxonomy, e.g. services/plumbing, lodging/str, retail/colmado, food/restaurant"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 500
+    },
+    "location": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "city",
+        "country",
+        "lat",
+        "lng"
+      ],
+      "properties": {
+        "city": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "country": {
+          "type": "string",
+          "pattern": "^[A-Z]{2}$"
+        },
+        "lat": {
+          "type": "number",
+          "minimum": -90,
+          "maximum": 90
+        },
+        "lng": {
+          "type": "number",
+          "minimum": -180,
+          "maximum": 180
+        },
+        "radius_km": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 20000
+        }
+      }
+    },
+    "languages": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z]{2}(-[A-Z]{2})?$"
+      }
+    },
+    "offers": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 200,
+      "items": {
+        "$ref": "#/$defs/offer"
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "negotiation",
+        "payment"
+      ],
+      "properties": {
+        "negotiation": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "max_discount_pct": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "min_notice_hours": {
+              "type": "number",
+              "minimum": 0
+            },
+            "max_rounds": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 6,
+              "default": 6
+            },
+            "blackout": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "mon",
+                  "tue",
+                  "wed",
+                  "thu",
+                  "fri",
+                  "sat",
+                  "sun"
+                ]
+              }
+            },
+            "strategy": {
+              "type": "string",
+              "enum": [
+                "firm",
+                "flexible",
+                "close_fast"
+              ]
+            }
+          }
+        },
+        "payment": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": [
+              "stripe_link",
+              "ath_movil",
+              "cash",
+              "acp",
+              "ap2"
+            ]
+          }
+        },
+        "settlement": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "acp",
+              "ap2"
+            ]
+          }
+        },
+        "cancellation": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "free_until_hours": {
+              "type": "number",
+              "minimum": 0,
+              "description": "hours before start when cancellation is still free"
+            },
+            "fee_pct": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            }
+          }
+        },
+        "handoff_to_human": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "channels": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "whatsapp": {
+          "type": "string",
+          "pattern": "^\\+[1-9][0-9]{6,14}$"
+        },
+        "web": {
+          "type": "string",
+          "format": "uri"
+        },
+        "business_agent": {
+          "type": "boolean",
+          "description": "true when the business runs Meta Business Agent and PLAZA is connected to it as a connector"
+        }
+      }
+    },
+    "endpoint": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https://"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "signature": {
+      "$ref": "#/$defs/signature"
+    },
+    "service_area": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "municipalities": {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "type": "string",
+            "maxLength": 60
+          }
+        },
+        "radius_km": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 20000
+        }
+      }
+    }
+  },
+  "$defs": {
+    "did": {
+      "type": "string",
+      "pattern": "^did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "signature": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{86}$",
+      "description": "Ed25519 signature, base64url without padding"
+    },
+    "money": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "amount",
+        "currency"
+      ],
+      "properties": {
+        "amount": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Minor units (cents)"
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$"
+        },
+        "unit": {
+          "type": "string",
+          "maxLength": 20,
+          "description": "visit, hour, night, item, kg, order"
+        }
+      }
+    },
+    "offer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "price",
+        "availability",
+        "negotiable"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]{1,40}$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "price": {
+          "$ref": "#/$defs/money"
+        },
+        "availability": {
+          "type": "string",
+          "enum": [
+            "always",
+            "calendar",
+            "on_request"
+          ]
+        },
+        "negotiable": {
+          "type": "boolean"
+        },
+        "capacity": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "tags": {
+          "type": "array",
+          "maxItems": 20,
+          "items": {
+            "type": "string",
+            "maxLength": 30
+          }
+        },
+        "instant_book": {
+          "type": "boolean",
+          "default": false,
+          "description": "accept closes without negotiation and payment_request is sent immediately"
+        },
+        "requires_agreement": {
+          "type": "boolean",
+          "default": false,
+          "description": "an agreement must be accepted before payment"
+        },
+        "deposit_pct": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "deposit required at booking, percent of total"
+        },
+        "duration_minutes": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    }
+  }
+}

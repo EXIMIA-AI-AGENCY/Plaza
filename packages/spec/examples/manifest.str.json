@@ -1,0 +1,57 @@
+{
+  "plaza": "0.1",
+  "id": "did:key:z6MkpTHR8VNsBxYAAWHut2Geadd9jSwuBV8xRoAnwWsdvktH",
+  "name": "Casa Marea, Rincón",
+  "category": "lodging/str",
+  "description": "Apartamento de 2 cuartos a 5 minutos de Domes Beach.",
+  "location": {
+    "city": "Rincón",
+    "country": "PR",
+    "lat": 18.3402,
+    "lng": -67.25
+  },
+  "languages": [
+    "es",
+    "en"
+  ],
+  "offers": [
+    {
+      "id": "night",
+      "title": "Noche, hasta 4 huéspedes",
+      "price": {
+        "amount": 14500,
+        "currency": "USD",
+        "unit": "night"
+      },
+      "availability": "calendar",
+      "negotiable": true,
+      "capacity": 4,
+      "tags": [
+        "beach",
+        "parking",
+        "wifi"
+      ]
+    }
+  ],
+  "policy": {
+    "negotiation": {
+      "max_discount_pct": 20,
+      "min_notice_hours": 24,
+      "max_rounds": 4,
+      "strategy": "firm"
+    },
+    "payment": [
+      "stripe_link"
+    ],
+    "settlement": [
+      "acp",
+      "ap2"
+    ]
+  },
+  "channels": {
+    "whatsapp": "+17875550199"
+  },
+  "endpoint": "https://nodes.plaza.example/casa-marea/plaza",
+  "updated_at": "2026-10-26T15:00:00Z",
+  "signature": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+}

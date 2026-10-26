@@ -1,0 +1,16 @@
+{
+  "name": "plaza",
+  "private": true,
+  "version": "0.1.0",
+  "description": "PLAZA: the market with no owner. An open protocol for agent-to-business discovery, negotiation and reputation.",
+  "license": "Apache-2.0",
+  "packageManager": "pnpm@10.0.0",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "build": "pnpm -r --if-present build",
+    "dev": "pnpm -r --parallel --if-present dev",
+    "lint": "pnpm -r --if-present lint",
+    "typecheck": "pnpm -r --if-present typecheck",
+    "test": "pnpm -r --if-present test"
+  }
+}

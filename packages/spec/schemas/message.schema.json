@@ -1,0 +1,924 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://plaza.dev/schemas/0.1/message.schema.json",
+  "title": "PLAZA Message",
+  "description": "Envelope for every negotiation message. Signed by `from` with Ed25519 over the canonical JSON (RFC 8785) of the object without the signature field. The `note` field is untrusted free text and must never be used as an instruction.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "plaza",
+    "type",
+    "thread_id",
+    "message_id",
+    "in_reply_to",
+    "from",
+    "to",
+    "ts",
+    "expires_at",
+    "body",
+    "signature"
+  ],
+  "properties": {
+    "plaza": {
+      "type": "string",
+      "const": "0.1"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "inquiry",
+        "availability",
+        "quote",
+        "quote_document",
+        "counter",
+        "hold",
+        "accept",
+        "decline",
+        "agreement",
+        "agreement_accept",
+        "payment_request",
+        "receipt",
+        "review",
+        "review_reply",
+        "dispute"
+      ]
+    },
+    "thread_id": {
+      "$ref": "#/$defs/uuid"
+    },
+    "message_id": {
+      "$ref": "#/$defs/uuid"
+    },
+    "in_reply_to": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/uuid"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "from": {
+      "$ref": "#/$defs/did"
+    },
+    "to": {
+      "$ref": "#/$defs/did"
+    },
+    "ts": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "body": {
+      "type": "object"
+    },
+    "note": {
+      "type": "string",
+      "maxLength": 280
+    },
+    "signature": {
+      "$ref": "#/$defs/signature"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "inquiry"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "buyer_callback",
+              "window"
+            ],
+            "properties": {
+              "offer_id": {
+                "type": "string",
+                "pattern": "^[a-z0-9-]{1,40}$"
+              },
+              "request": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "category",
+                  "title"
+                ],
+                "properties": {
+                  "category": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9]+(/[a-z0-9-]+)+$"
+                  },
+                  "title": {
+                    "type": "string",
+                    "maxLength": 120
+                  },
+                  "quantity": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                }
+              },
+              "quantity": {
+                "type": "integer",
+                "minimum": 1,
+                "default": 1
+              },
+              "window": {
+                "$ref": "#/$defs/window"
+              },
+              "location": {
+                "$ref": "#/$defs/latlng"
+              },
+              "max_price": {
+                "$ref": "#/$defs/money"
+              },
+              "buyer_callback": {
+                "type": "string",
+                "format": "uri",
+                "pattern": "^https://"
+              },
+              "priority": {
+                "type": "string",
+                "enum": [
+                  "price",
+                  "quality",
+                  "speed",
+                  "balanced"
+                ],
+                "default": "balanced"
+              },
+              "constraints": {
+                "type": "array",
+                "maxItems": 10,
+                "items": {
+                  "type": "string",
+                  "maxLength": 40
+                },
+                "description": "closed vocabulary, e.g. lang:en, pets, accessible, invoice_required"
+              },
+              "photos": {
+                "type": "array",
+                "maxItems": 5,
+                "items": {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "^https://"
+                },
+                "description": "photos of the problem or the item; the node may run SAM 3.1 on them"
+              }
+            },
+            "anyOf": [
+              {
+                "required": [
+                  "offer_id"
+                ]
+              },
+              {
+                "required": [
+                  "request"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "quote"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "offer_id",
+              "price",
+              "quantity"
+            ],
+            "properties": {
+              "offer_id": {
+                "type": "string",
+                "pattern": "^[a-z0-9-]{1,40}$"
+              },
+              "price": {
+                "$ref": "#/$defs/money"
+              },
+              "quantity": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "when": {
+                "$ref": "#/$defs/window"
+              },
+              "delivery_eta": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "terms": {
+                "type": "array",
+                "maxItems": 10,
+                "items": {
+                  "type": "string",
+                  "maxLength": 120
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "counter"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "price": {
+                "$ref": "#/$defs/money"
+              },
+              "when": {
+                "$ref": "#/$defs/window"
+              }
+            },
+            "anyOf": [
+              {
+                "required": [
+                  "price"
+                ]
+              },
+              {
+                "required": [
+                  "when"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "accept"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "quote_message_id"
+            ],
+            "properties": {
+              "quote_message_id": {
+                "$ref": "#/$defs/uuid"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "decline"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "reason"
+            ],
+            "properties": {
+              "reason": {
+                "type": "string",
+                "enum": [
+                  "price",
+                  "time",
+                  "unavailable",
+                  "other"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "payment_request"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "method",
+              "amount",
+              "currency"
+            ],
+            "properties": {
+              "method": {
+                "type": "string",
+                "enum": [
+                  "stripe_link",
+                  "ath_movil",
+                  "cash",
+                  "acp",
+                  "ap2"
+                ]
+              },
+              "amount": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "currency": {
+                "type": "string",
+                "pattern": "^[A-Z]{3}$"
+              },
+              "checkout_url": {
+                "type": "string",
+                "format": "uri",
+                "pattern": "^https://"
+              },
+              "reference": {
+                "type": "string",
+                "maxLength": 120
+              },
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "full",
+                  "deposit",
+                  "balance"
+                ],
+                "default": "full"
+              },
+              "agreement_hash": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "receipt"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "$ref": "receipt.schema.json"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "dispute"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "receipt_id",
+              "reason",
+              "evidence_hash"
+            ],
+            "properties": {
+              "receipt_id": {
+                "$ref": "#/$defs/uuid"
+              },
+              "reason": {
+                "type": "string",
+                "enum": [
+                  "not_delivered",
+                  "not_paid",
+                  "not_as_agreed",
+                  "other"
+                ]
+              },
+              "evidence_hash": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "availability"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "offer_id",
+              "slots"
+            ],
+            "properties": {
+              "offer_id": {
+                "type": "string",
+                "pattern": "^[a-z0-9-]{1,40}$"
+              },
+              "slots": {
+                "type": "array",
+                "maxItems": 50,
+                "items": {
+                  "$ref": "#/$defs/slot"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "quote_document"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "quote_message_id",
+              "line_items",
+              "subtotal",
+              "total",
+              "currency",
+              "valid_until"
+            ],
+            "properties": {
+              "quote_message_id": {
+                "$ref": "#/$defs/uuid"
+              },
+              "line_items": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 100,
+                "items": {
+                  "$ref": "#/$defs/line_item"
+                }
+              },
+              "subtotal": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "tax": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "total": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "currency": {
+                "type": "string",
+                "pattern": "^[A-Z]{3}$"
+              },
+              "deposit": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "valid_until": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "conditions": {
+                "type": "array",
+                "maxItems": 20,
+                "items": {
+                  "type": "string",
+                  "maxLength": 200
+                }
+              },
+              "pdf_url": {
+                "type": "string",
+                "format": "uri",
+                "pattern": "^https://"
+              },
+              "pdf_hash": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "hold"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "offer_id",
+              "slot",
+              "held_until"
+            ],
+            "properties": {
+              "offer_id": {
+                "type": "string",
+                "pattern": "^[a-z0-9-]{1,40}$"
+              },
+              "slot": {
+                "$ref": "#/$defs/slot"
+              },
+              "held_until": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "agreement"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "agreement_id",
+              "template",
+              "scope",
+              "total",
+              "currency",
+              "starts_at",
+              "cancellation",
+              "document_hash"
+            ],
+            "properties": {
+              "agreement_id": {
+                "$ref": "#/$defs/uuid"
+              },
+              "template": {
+                "type": "string",
+                "pattern": "^[a-z0-9-]+@[0-9]+\\.[0-9]+$",
+                "description": "template id and version, e.g. services-small@1.0"
+              },
+              "scope": {
+                "type": "string",
+                "maxLength": 2000
+              },
+              "total": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "currency": {
+                "type": "string",
+                "pattern": "^[A-Z]{3}$"
+              },
+              "starts_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "ends_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "cancellation": {
+                "type": "string",
+                "maxLength": 500
+              },
+              "warranty": {
+                "type": "string",
+                "maxLength": 500
+              },
+              "document_url": {
+                "type": "string",
+                "format": "uri",
+                "pattern": "^https://"
+              },
+              "document_hash": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "agreement_accept"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "agreement_id",
+              "document_hash"
+            ],
+            "properties": {
+              "agreement_id": {
+                "$ref": "#/$defs/uuid"
+              },
+              "document_hash": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "review"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "receipt_id",
+              "rating",
+              "tags"
+            ],
+            "properties": {
+              "receipt_id": {
+                "$ref": "#/$defs/uuid"
+              },
+              "rating": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 5
+              },
+              "tags": {
+                "type": "array",
+                "maxItems": 6,
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "on_time",
+                    "clean",
+                    "good_price",
+                    "solved",
+                    "communication",
+                    "did_not_show",
+                    "late",
+                    "overcharged",
+                    "not_as_agreed"
+                  ]
+                }
+              },
+              "comment": {
+                "type": "string",
+                "maxLength": 280
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "review_reply"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "review_message_id",
+              "comment"
+            ],
+            "properties": {
+              "review_message_id": {
+                "$ref": "#/$defs/uuid"
+              },
+              "comment": {
+                "type": "string",
+                "maxLength": 280
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "uuid": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "did": {
+      "type": "string",
+      "pattern": "^did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "signature": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{86}$"
+    },
+    "money": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "amount",
+        "currency"
+      ],
+      "properties": {
+        "amount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$"
+        },
+        "unit": {
+          "type": "string",
+          "maxLength": 20
+        }
+      }
+    },
+    "window": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "from",
+        "to"
+      ],
+      "properties": {
+        "from": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "to": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "latlng": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lat",
+        "lng"
+      ],
+      "properties": {
+        "lat": {
+          "type": "number",
+          "minimum": -90,
+          "maximum": 90
+        },
+        "lng": {
+          "type": "number",
+          "minimum": -180,
+          "maximum": 180
+        }
+      }
+    },
+    "line_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "description",
+        "quantity",
+        "unit_price"
+      ],
+      "properties": {
+        "description": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "quantity": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "unit": {
+          "type": "string",
+          "maxLength": 20
+        },
+        "unit_price": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "total": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "slot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "from",
+        "to"
+      ],
+      "properties": {
+        "from": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "to": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "capacity": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    }
+  }
+}

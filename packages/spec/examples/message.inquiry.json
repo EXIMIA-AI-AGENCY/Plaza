@@ -1,0 +1,30 @@
+{
+  "plaza": "0.1",
+  "type": "inquiry",
+  "thread_id": "018c1a2b-7c4d-7e8f-9a0b-1c2d3e4f5a6b",
+  "message_id": "018c1a2b-7c4d-7e8f-9a0b-1c2d3e4f5a6c",
+  "in_reply_to": null,
+  "from": "did:key:z6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V",
+  "to": "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+  "ts": "2026-10-26T15:01:00Z",
+  "expires_at": "2026-10-26T15:31:00Z",
+  "body": {
+    "offer_id": "emergency-visit",
+    "quantity": 1,
+    "window": {
+      "from": "2026-10-26T15:00:00Z",
+      "to": "2026-10-26T21:00:00Z"
+    },
+    "location": {
+      "lat": 18.24,
+      "lng": -66.04
+    },
+    "max_price": {
+      "amount": 15000,
+      "currency": "USD"
+    },
+    "buyer_callback": "https://gateway.plaza.example/callback/018c1a2b-7c4d-7e8f-9a0b-1c2d3e4f5a6b"
+  },
+  "note": "Tubo roto debajo del fregadero, hay agua en el piso.",
+  "signature": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+}

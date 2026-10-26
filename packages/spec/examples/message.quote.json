@@ -1,0 +1,29 @@
+{
+  "plaza": "0.1",
+  "type": "quote",
+  "thread_id": "018c1a2b-7c4d-7e8f-9a0b-1c2d3e4f5a6b",
+  "message_id": "018c1a2b-7c4d-7e8f-9a0b-1c2d3e4f5a6d",
+  "in_reply_to": "018c1a2b-7c4d-7e8f-9a0b-1c2d3e4f5a6c",
+  "from": "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+  "to": "did:key:z6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V",
+  "ts": "2026-10-26T15:01:20Z",
+  "expires_at": "2026-10-26T15:16:20Z",
+  "body": {
+    "offer_id": "emergency-visit",
+    "price": {
+      "amount": 15000,
+      "currency": "USD",
+      "unit": "visit"
+    },
+    "quantity": 1,
+    "when": {
+      "from": "2026-10-26T17:00:00Z",
+      "to": "2026-10-26T18:00:00Z"
+    },
+    "terms": [
+      "Materiales aparte",
+      "Pago al terminar"
+    ]
+  },
+  "signature": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+}

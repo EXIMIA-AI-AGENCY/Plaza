@@ -1,0 +1,42 @@
+{
+  "plaza": "0.1",
+  "type": "quote_document",
+  "thread_id": "018c1a2b-7c4d-7e8f-9a0b-1c2d3e4f5a6b",
+  "message_id": "018c1a2b-7c4d-7e8f-9a0b-1c2d3e4f5a81",
+  "in_reply_to": "018c1a2b-7c4d-7e8f-9a0b-1c2d3e4f5a6f",
+  "from": "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+  "to": "did:key:z6MkqRYqQiSgvZQdnBytw86Qbs2ZWUkGv22od935YF4s8M7V",
+  "ts": "2026-10-26T15:02:10Z",
+  "expires_at": "2026-10-27T15:02:10Z",
+  "body": {
+    "quote_message_id": "018c1a2b-7c4d-7e8f-9a0b-1c2d3e4f5a6f",
+    "line_items": [
+      {
+        "description": "Visita de emergencia",
+        "quantity": 1,
+        "unit": "visit",
+        "unit_price": 13000,
+        "total": 13000
+      },
+      {
+        "description": "Reemplazo de tubo PVC 1/2 pulgada",
+        "quantity": 2,
+        "unit": "ft",
+        "unit_price": 800,
+        "total": 1600
+      }
+    ],
+    "subtotal": 14600,
+    "tax": 0,
+    "total": 14600,
+    "currency": "USD",
+    "valid_until": "2026-10-27T15:02:10Z",
+    "conditions": [
+      "Materiales adicionales se cotizan aparte",
+      "Garantía de 30 días en mano de obra"
+    ],
+    "pdf_url": "https://nodes.plaza.example/q/018c1a2b.pdf",
+    "pdf_hash": "sha256:cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd"
+  },
+  "signature": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+}

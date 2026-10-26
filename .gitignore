@@ -1,0 +1,16 @@
+node_modules
+.pnpm-store
+dist
+.next
+out
+coverage
+.turbo
+.vercel
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+build/
+apps/gadget/build/
+apps/gadget/sdkconfig

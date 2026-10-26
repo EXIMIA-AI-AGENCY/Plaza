@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://plaza.dev/schemas/0.1/receipt.schema.json",
+  "title": "PLAZA Receipt",
+  "description": "A closed deal. The node signs first (sig_node over the object without sig_buyer), the buyer counter-signs (sig_buyer over the object including sig_node). Receipts are the reputation layer.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "plaza",
+    "receipt_id",
+    "thread_id",
+    "node",
+    "buyer",
+    "terms_hash",
+    "amount",
+    "currency",
+    "ts",
+    "sig_node"
+  ],
+  "properties": {
+    "plaza": {
+      "type": "string",
+      "const": "0.1"
+    },
+    "receipt_id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "thread_id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "node": {
+      "type": "string",
+      "pattern": "^did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "buyer": {
+      "type": "string",
+      "pattern": "^did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "terms_hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$",
+      "description": "SHA-256 of the canonical JSON of the accepted quote message"
+    },
+    "amount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$"
+    },
+    "ts": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "payment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "method"
+      ],
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": [
+            "stripe_link",
+            "ath_movil",
+            "cash",
+            "acp",
+            "ap2"
+          ]
+        },
+        "reference": {
+          "type": "string",
+          "maxLength": 120
+        }
+      }
+    },
+    "sig_node": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{86}$"
+    },
+    "sig_buyer": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{86}$"
+    },
+    "agreement_hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$",
+      "description": "present when an agreement was accepted for this deal"
+    },
+    "quote_document_hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    }
+  }
+}
